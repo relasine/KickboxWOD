@@ -1,20 +1,21 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Warmup } from "./src/components/warmup";
+import { Exercise } from "./src/components/Exercise";
 
 import { WARMUP, BAG_ROUNDS, POWER_ROUNDS } from "./src/constants/constants";
+import { Button } from "./src/components/Button";
 
 export default function App() {
   const [workout, setWorkout] = useState(null);
-  const [activeSection, setActiveSection] = useState(null);
+  const [workoutStarted, setWorkoutStarted] = useState(false);
+  const [workoutDone, setWorkoutDone] = useState(false);
 
   useEffect(() => {
     const fetchWorkout = async () => {
       try {
-        const response = await fetch("http://localhost:3000/");
+        const response = await fetch("http://10.0.0.84:3000/");
         const parsedWorkout = await response.json();
         setWorkout(parsedWorkout);
-        setActiveSection(WARMUP);
       } catch (e) {
         console.log(e);
       }
@@ -23,7 +24,7 @@ export default function App() {
     fetchWorkout();
   }, []);
 
-  if (!workout || !activeSection) {
+  if (!workout) {
     return (
       <View style={styles.container}>
         <Text>Loading</Text>
@@ -33,29 +34,24 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 36, fontWeight: 800, margin: 32 }}>
-        {activeSection.toUpperCase()}
-      </Text>
-      {activeSection === WARMUP && (
-        <Warmup
-          routine={workout.warmup}
-          setActiveSection={setActiveSection}
-          nextSection={BAG_ROUNDS}
-        />
+      {workoutStarted && !workoutDone && (
+        <Exercise routine={workout} setWorkoutDone={setWorkoutDone} />
       )}
-      {activeSection === BAG_ROUNDS && (
-        <Warmup
-          routine={workout.bagRounds}
-          setActiveSection={setActiveSection}
-          nextSection={POWER_ROUNDS}
-        />
+      {!workoutStarted && !workoutDone && (
+        <Button onPress={() => setWorkoutStarted(true)}>Start workout</Button>
       )}
-      {activeSection === POWER_ROUNDS && (
-        <Warmup
-          routine={workout.powerRounds}
-          setActiveSection={setActiveSection}
-          nextSection={null}
-        />
+      {workoutDone && (
+        <Text
+          style={{
+            fontSize: 36,
+            fontWeight: 800,
+            margin: 32,
+            color: "#fff",
+            textAlign: "center",
+          }}
+        >
+          Done!
+        </Text>
       )}
     </View>
   );
@@ -64,7 +60,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#000",
     alignItems: "center",
     justifyContent: "center",
   },

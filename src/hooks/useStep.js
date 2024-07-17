@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useStep = (routine, setActiveSection, nextSection) => {
+export const useStep = (routine) => {
   const [currentStep, setCurrentStep] = useState(null);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export const useStep = (routine, setActiveSection, nextSection) => {
     if (currentStep !== routine.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      setActiveSection(nextSection);
+      setCurrentStep(null);
     }
   };
 

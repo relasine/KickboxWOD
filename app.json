@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "KickboxWOD",
-    "slug": "KickboxWOD",
+    "slug": "kickbox-wod",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,7 +12,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.relasine.kickboxwod"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,6 +23,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f297414a-ad59-4c9d-8b15-2fb19c3d2fca"
+      }
+    },
+    "owner": "relasine"
   }
 }
