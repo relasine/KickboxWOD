@@ -13,7 +13,7 @@ export default function App() {
   useEffect(() => {
     const fetchWorkout = async () => {
       try {
-        const response = await fetch("http://10.0.0.86:3000/");
+        const response = await fetch("https://kickbox-wod-api-0cb570c9519f.herokuapp.com/");
         const parsedWorkout = await response.json();
         setWorkout(parsedWorkout);
       } catch (e) {
