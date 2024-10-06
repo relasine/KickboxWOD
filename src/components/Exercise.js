@@ -79,6 +79,8 @@ export const Exercise = ({ routine, setWorkoutDone }) => {
         nextDuration={routine[currentStep + 1]?.duration}
         onExpiry={onExpiry}
         nextStepExercise={nextStepExercise}
+        beastMode={step.beastMode}
+        add={step.add}
       />
     </View>
   );

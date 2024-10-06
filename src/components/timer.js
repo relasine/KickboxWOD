@@ -10,13 +10,19 @@ export const Timer = ({
   onExpiry,
   nextDuration,
   nextStepExercise,
+  beastMode,
+  add,
 }) => {
   const { time, advanceTime, pause, status, start } = useTimer({
     initialTime: duration,
     timerType: "DECREMENTAL",
     autostart: true,
     onTimeUpdate: () => {
-      if (time === 3) {
+      if (beastMode && time === duration / 2 + 10) {
+        speak(`Beast Mode : ${beastMode}`);
+      } else if (add && time === duration / 2 - 5) {
+        speak(`Add a ${add.join(" - ")}`);
+      } else if (time === 3) {
         speak("three");
       } else if (time === 2) {
         speak("two");
@@ -33,6 +39,14 @@ export const Timer = ({
       }
     },
   });
+
+  const skip = () => {
+    if (nextStepExercise && nextDuration) {
+      speak(`${nextStepExercise}`);
+      advanceTime(time - nextDuration);
+      onExpiry(false);
+    }
+  };
 
   useBackgroundApp({ onBackground: pause });
 
@@ -82,6 +96,7 @@ export const Timer = ({
       <Button onPress={status === "RUNNING" ? pause : start}>
         {status === "RUNNING" ? "Pause" : "Resume"}
       </Button>
+      {nextDuration && nextStepExercise && <Button onPress={skip}>Skip</Button>}
     </View>
   );
 };
