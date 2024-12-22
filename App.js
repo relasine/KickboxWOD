@@ -14,7 +14,7 @@ export default function App() {
     const fetchWorkout = async () => {
       try {
         const response = await fetch(
-          "https://kickbox-wod-api-0cb570c9519f.herokuapp.com/"
+          "https://kickbox-wod-api-0cb570c9519f.herokuapp.com/v1"
         );
         const parsedWorkout = await response.json();
         setWorkout(parsedWorkout);
